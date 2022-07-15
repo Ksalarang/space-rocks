@@ -7,8 +7,10 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.diyartaikenov.game.base.actors.BaseActor;
 import com.diyartaikenov.game.base.screens.BaseScreen;
@@ -30,10 +32,13 @@ public class MainMenu extends BaseScreen {
 		spaceGame = (SpaceRocksGame) game;
 		uiStage.setViewport(new FillViewport(WIDTH, HEIGHT));
 
-		Texture texture = new Texture(Gdx.files.internal("space_background.png"));
-		background = new BaseActor(texture);
+		Texture starfield = new Texture(Gdx.files.internal("starfield.png"));
+		background = new BaseActor(starfield);
+
 		playButton = new TextButton("Play", spaceGame.textButtonStyle);
 		quitButton = new TextButton("Quit", spaceGame.textButtonStyle);
+		playButton.addListener(getPlayButtonClickListener());
+		quitButton.addListener(getQuitButtonClickListener());
 
 		uiTable = new Table();
 		uiTable.add(playButton).height(100);
@@ -53,4 +58,30 @@ public class MainMenu extends BaseScreen {
 
 	@Override
 	protected void update(float delta) {}
+
+	@Override
+	public void dispose() {
+		super.dispose();
+		background.dispose();
+	}
+
+	private ClickListener getPlayButtonClickListener() {
+		return new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				dispose();
+				spaceGame.setScreen(new SpaceLevel(spaceGame));
+			}
+		};
+	}
+
+	private ClickListener getQuitButtonClickListener() {
+		return new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				dispose();
+				Gdx.app.exit();
+			}
+		};
+	}
 }
