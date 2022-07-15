@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class PhysicsActor extends BaseActor {
     // todo: what does this constant represent?
@@ -24,6 +25,10 @@ public class PhysicsActor extends BaseActor {
 
     public PhysicsActor(Texture texture) {
         super(texture);
+    }
+
+    public PhysicsActor(Texture texture, Stage stage) {
+        super(texture, stage);
     }
 
     protected void applyRotationToVelocity() {

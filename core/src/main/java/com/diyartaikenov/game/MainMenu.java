@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.viewport.FillViewport;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.diyartaikenov.game.base.actors.BaseActor;
 import com.diyartaikenov.game.base.screens.BaseScreen;
 import com.diyartaikenov.game.utils.Utils;
@@ -30,9 +30,9 @@ public class MainMenu extends BaseScreen {
 	@Override
 	protected void create(Game game) {
 		spaceGame = (SpaceRocksGame) game;
-		uiStage.setViewport(new FillViewport(WIDTH, HEIGHT));
+		uiStage.setViewport(new ExtendViewport(WIDTH, HEIGHT));
 
-		Texture starfield = new Texture(Gdx.files.internal("starfield.png"));
+		Texture starfield = new Texture(Gdx.files.internal("starfield_extended.png"));
 		background = new BaseActor(starfield);
 
 		playButton = new TextButton("Play", spaceGame.textButtonStyle);
@@ -41,12 +41,12 @@ public class MainMenu extends BaseScreen {
 		quitButton.addListener(getQuitButtonClickListener());
 
 		uiTable = new Table();
-		uiTable.add(playButton).height(100);
+		uiTable.add(playButton).height(200);
 		uiTable.row();
 		uiTable.add(quitButton);
 		Vector2 tablePosition = Utils.center(
 				Gdx.graphics.getWidth(),
-				Gdx.graphics.getHeight(),
+				HEIGHT,
 				uiTable.getWidth(),
 				uiTable.getHeight()
 		);
