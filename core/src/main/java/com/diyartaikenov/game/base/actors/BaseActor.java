@@ -12,8 +12,9 @@ import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.utils.Disposable;
 
-public class BaseActor extends Actor {
+public class BaseActor extends Actor implements Disposable {
     public static Rectangle worldBounds = new Rectangle();
 
     protected TextureRegion textureRegion = new TextureRegion();
@@ -173,5 +174,10 @@ public class BaseActor extends Actor {
                     getRotation()
             );
         }
+    }
+
+    @Override
+    public void dispose() {
+        textureRegion.getTexture().dispose();
     }
 }
