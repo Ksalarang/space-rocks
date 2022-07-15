@@ -25,7 +25,7 @@ public class SpaceLevel extends BaseScreen {
         mainStage.setViewport(new ExtendViewport(WIDTH, HEIGHT));
         uiStage.setViewport(new ExtendViewport(WIDTH, HEIGHT));
 
-        Texture starfield = new Texture(Gdx.files.internal("starfield.png"));
+        Texture starfield = new Texture(Gdx.files.internal("starfield_extended.png"));
         background = new BaseActor(starfield);
 
         mainStage.addActor(background);
