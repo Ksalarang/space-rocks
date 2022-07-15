@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Disposable;
 
 public class BaseActor extends Actor implements Disposable {
@@ -38,6 +39,19 @@ public class BaseActor extends Actor implements Disposable {
         setTexture(new Texture(pixmap));
     }
 
+    public BaseActor(Texture texture) {
+        setTexture(texture);
+    }
+
+    /**
+     * @param texture is used to set this actor's texture region.
+     * @param stage is used to add this actor to the stage.
+     */
+    public BaseActor(Texture texture, Stage stage) {
+        this(texture);
+        stage.addActor(this);
+    }
+
     public static void setWorldBounds(float width, float height) {
         worldBounds.set(0, 0, width, height);
     }
@@ -58,10 +72,6 @@ public class BaseActor extends Actor implements Disposable {
         if (getY() + getHeight() > worldBounds.height) {
             setY(worldBounds.height - getHeight());
         }
-    }
-
-    public BaseActor(Texture texture) {
-        setTexture(texture);
     }
 
     public void setTexture(Texture texture) {
