@@ -171,6 +171,26 @@ public class BaseActor extends Actor implements Disposable {
         camera.update();
     }
 
+    /**
+     * When an actor moves past the edge of the world, it reappears on the opposite edge.
+     * To use this feature, set the {@link #worldBounds} first.
+     * @see #setWorldBounds(float, float)
+     */
+    public void wrapAroundWorld() {
+        if (getX() + getWidth() <= 0) {
+            setX(worldBounds.width);
+        }
+        if (getX() > worldBounds.width) {
+            setX(-getWidth());
+        }
+        if (getY() + getHeight() <= 0) {
+            setY(worldBounds.height);
+        }
+        if (getY() > worldBounds.height) {
+            setY(-getHeight());
+        }
+    }
+
     @Override
     public void draw(Batch batch, float parentAlpha) {
         batch.setColor(getColor());
