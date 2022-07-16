@@ -29,18 +29,27 @@ public class SpaceShip extends PhysicsActor implements InputProcessor {
     @Override
     public void act(float delta) {
         super.act(delta);
+        makeTurn();
+        updateAcceleratingDirection();
+        wrapAroundWorld();
+    }
+
+    private void makeTurn() {
         if (isTurningLeft) {
             rotateBy(ROTATE_AMOUNT);
         }
         if (isTurningRight) {
             rotateBy(-ROTATE_AMOUNT);
         }
+    }
+
+    private void updateAcceleratingDirection() {
         if (isReverseThrustOn) {
-            setAccelerationWith(getRotation() - 180, HALF_ACCELERATION);
+            float oppositeDirection = getRotation() - 180;
+            setAccelerationWith(oppositeDirection, HALF_ACCELERATION);
         } else {
             setAccelerationWith(getRotation(), getAcceleration());
         }
-        wrapAroundWorld();
     }
 
     @Override
