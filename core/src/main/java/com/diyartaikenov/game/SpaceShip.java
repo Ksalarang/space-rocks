@@ -10,15 +10,19 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.diyartaikenov.game.base.actors.PhysicsActor;
 
 public class SpaceShip extends PhysicsActor implements InputProcessor {
-    private final Texture laserTexture;
+    private static final float ACCELERATION = 50;
+    private static final float HALF_ACCELERATION = ACCELERATION / 2;
+    private static final float ROTATE_AMOUNT = 5;
 
+    private final Texture laserTexture;
     private boolean isTurningRight, isTurningLeft;
-    private final float ROTATE_AMOUNT = 5;
+    private boolean isReverseThrustOn;
 
     public SpaceShip(float x, float y, Stage stage) {
         super(new Texture(Gdx.files.internal("spaceship.png")), stage);
         setPosition(x, y);
         setOrigin(center);
+        setMaxSpeed(600);
         laserTexture = new Texture(Gdx.files.internal("laser.png"));
     }
 
@@ -31,6 +35,11 @@ public class SpaceShip extends PhysicsActor implements InputProcessor {
         if (isTurningRight) {
             rotateBy(-ROTATE_AMOUNT);
         }
+        if (isReverseThrustOn) {
+            setAccelerationWith(getRotation() - 180, HALF_ACCELERATION);
+        } else {
+            setAccelerationWith(getRotation(), getAcceleration());
+        }
     }
 
     @Override
@@ -41,6 +50,18 @@ public class SpaceShip extends PhysicsActor implements InputProcessor {
         if (keycode == Keys.D) {
             isTurningRight = true;
         }
+        if (keycode == Keys.W) {
+            accelerateInCurrentDirection(ACCELERATION);
+        }
+        if (keycode == Keys.S) {
+            isReverseThrustOn = true;
+        }
+        if (keycode == Keys.SPACE) {
+            // todo: replace with shoot laser
+            setAcceleration(0);
+            setSpeed(0);
+        }
+
         return true;
     }
 
@@ -51,6 +72,13 @@ public class SpaceShip extends PhysicsActor implements InputProcessor {
         }
         if (keycode == Keys.D) {
             isTurningRight = false;
+        }
+        if (keycode == Keys.W) {
+            setAcceleration(0);
+        }
+        if (keycode == Keys.S) {
+            isReverseThrustOn = false;
+            setAcceleration(0);
         }
 
         return true;
