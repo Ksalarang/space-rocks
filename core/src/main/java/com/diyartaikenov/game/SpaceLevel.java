@@ -14,6 +14,7 @@ public class SpaceLevel extends BaseScreen {
     private SpaceRocksGame spaceGame;
 
     private BaseActor background;
+    private SpaceShip ship;
 
     public SpaceLevel(Game game) {
         super(game);
@@ -26,9 +27,10 @@ public class SpaceLevel extends BaseScreen {
         uiStage.setViewport(new ExtendViewport(WIDTH, HEIGHT));
 
         Texture starfield = new Texture(Gdx.files.internal("starfield_extended.png"));
-        background = new BaseActor(starfield);
+        background = new BaseActor(starfield, mainStage);
+        ship = new SpaceShip(200, 200, mainStage);
 
-        mainStage.addActor(background);
+        inputMultiplexer.addProcessor(ship);
     }
 
     @Override
