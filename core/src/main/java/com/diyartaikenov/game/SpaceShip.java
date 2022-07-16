@@ -6,7 +6,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.diyartaikenov.game.base.actors.BaseActor;
 import com.diyartaikenov.game.base.actors.PhysicsActor;
 
 public class SpaceShip extends PhysicsActor implements InputProcessor {
@@ -52,6 +55,11 @@ public class SpaceShip extends PhysicsActor implements InputProcessor {
         }
     }
 
+    private void shoot() {
+        Laser laser = new Laser(getX(), getY(), laserTexture, getStage());
+        laser.setRotation(getRotation());
+    }
+
     @Override
     public boolean keyDown(int keycode) {
         if (keycode == Keys.A) {
@@ -67,7 +75,10 @@ public class SpaceShip extends PhysicsActor implements InputProcessor {
             isReverseThrustOn = true;
         }
         if (keycode == Keys.SPACE) {
-            // todo: replace with shoot laser
+            shoot();
+        }
+        if (keycode == Keys.ALT_LEFT) {
+            // todo: temporary
             setAcceleration(0);
             setSpeed(0);
         }
