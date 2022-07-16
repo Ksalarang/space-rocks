@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.diyartaikenov.game.base.actors.PhysicsActor;
 
 public class SpaceShip extends PhysicsActor implements InputProcessor {
-    private static final float ACCELERATION = 50;
+    private static final float ACCELERATION = 200;
     private static final float HALF_ACCELERATION = ACCELERATION / 2;
     private static final float ROTATE_AMOUNT = 5;
 
@@ -22,7 +22,7 @@ public class SpaceShip extends PhysicsActor implements InputProcessor {
         super(new Texture(Gdx.files.internal("spaceship.png")), stage);
         setPosition(x, y);
         setOrigin(center);
-        setMaxSpeed(600);
+        setMaxSpeed(5000);
         laserTexture = new Texture(Gdx.files.internal("laser.png"));
     }
 
@@ -40,6 +40,7 @@ public class SpaceShip extends PhysicsActor implements InputProcessor {
         } else {
             setAccelerationWith(getRotation(), getAcceleration());
         }
+        wrapAroundWorld();
     }
 
     @Override
