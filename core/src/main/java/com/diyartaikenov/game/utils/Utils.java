@@ -25,7 +25,7 @@ public class Utils {
 
     /**
      * Add a click listener to the given actor.
-     * @param onClick the callback invoked on click.
+     * @param onClick the callback invoked when the actor is clicked.
      */
     public static void addClickListener(Actor actor, Callback onClick) {
         actor.addListener(new ClickListener() {

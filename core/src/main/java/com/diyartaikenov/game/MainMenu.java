@@ -2,6 +2,8 @@ package com.diyartaikenov.game;
 
 import static com.diyartaikenov.game.SpaceRocksGame.HEIGHT;
 import static com.diyartaikenov.game.SpaceRocksGame.WIDTH;
+import static com.diyartaikenov.game.utils.UrlConstants.BACKGROUND;
+import static com.diyartaikenov.game.utils.UrlConstants.PNG;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -32,27 +34,29 @@ public class MainMenu extends BaseScreen {
 		spaceGame = (SpaceRocksGame) game;
 		uiStage.setViewport(new ExtendViewport(WIDTH, HEIGHT));
 
-		Texture starfield = new Texture(Gdx.files.internal("starfield_extended.png"));
+		Texture starfield = spaceGame.assetManager.getTexture(BACKGROUND + PNG);
 		background = new BaseActor(starfield);
 
 		playButton = new TextButton("Play", spaceGame.textButtonStyle);
 		quitButton = new TextButton("Quit", spaceGame.textButtonStyle);
+
 		Utils.addClickListener(playButton, this::onPlayButtonClick);
 		Utils.addClickListener(quitButton, this::onQuitButtonClick);
 
 		uiTable = new Table();
 		addUiTableRows();
-		Vector2 tablePosition = Utils.center(Gdx.graphics.getWidth(), HEIGHT, uiTable.getWidth(), uiTable.getHeight());
+		Vector2 tablePosition = Utils.center(WIDTH, HEIGHT, uiTable.getWidth(), uiTable.getHeight());
 		uiTable.setPosition(tablePosition.x, tablePosition.y);
 
-		uiStage.addActor(background);
+		mainStage.addActor(background);
 		uiStage.addActor(uiTable);
 	}
 
 	private void addUiTableRows() {
-		uiTable.add(playButton).height(200);
+		int height = 150;
+		uiTable.add(playButton).height(height);
 		uiTable.row();
-		uiTable.add(quitButton);
+		uiTable.add(quitButton).height(height);
 	}
 
 	@Override

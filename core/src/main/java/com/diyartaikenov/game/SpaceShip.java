@@ -69,6 +69,7 @@ public class SpaceShip extends PhysicsActor implements InputProcessor {
         Vector2 rightLaserPos = getRotatedPoint(x, y, cx, cy, angle);
         Laser leftLaser = new Laser(leftLaserPos.x, leftLaserPos.y, laserTexture, getStage());
         Laser rightLaser = new Laser(rightLaserPos.x, rightLaserPos.y, laserTexture, getStage());
+        // fixme: add ship's speed to lasers' speeds
         leftLaser.setRotation(angle);
         rightLaser.setRotation(angle);
     }

@@ -29,7 +29,7 @@ public class SpaceLevel extends BaseScreen {
         Texture starfield = new Texture(Gdx.files.internal("starfield_extended.png"));
         background = new BaseActor(starfield, mainStage);
         ship = new SpaceShip(200, HEIGHT / 2f, mainStage);
-        SpaceShip.setWorldBounds(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        SpaceShip.setWorldBounds(WIDTH, HEIGHT);
 
         inputMultiplexer.addProcessor(ship);
     }
