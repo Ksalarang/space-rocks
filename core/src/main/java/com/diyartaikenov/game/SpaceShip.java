@@ -1,15 +1,15 @@
 package com.diyartaikenov.game;
 
+import static com.badlogic.gdx.math.MathUtils.cosDeg;
+import static com.badlogic.gdx.math.MathUtils.sinDeg;
 import static com.badlogic.gdx.utils.Align.center;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.diyartaikenov.game.base.actors.BaseActor;
 import com.diyartaikenov.game.base.actors.PhysicsActor;
 
 public class SpaceShip extends PhysicsActor implements InputProcessor {
@@ -17,7 +17,7 @@ public class SpaceShip extends PhysicsActor implements InputProcessor {
     private static final float HALF_ACCELERATION = ACCELERATION / 2;
     private static final float ROTATE_AMOUNT = 5;
 
-    private final Texture laserTexture;
+    private Texture laserTexture;
     private boolean isTurningRight, isTurningLeft;
     private boolean isReverseThrustOn;
 
@@ -56,8 +56,29 @@ public class SpaceShip extends PhysicsActor implements InputProcessor {
     }
 
     private void shoot() {
-        Laser laser = new Laser(getX(), getY(), laserTexture, getStage());
-        laser.setRotation(getRotation());
+        // fixme: lasers are slightly off to the right when the ship is facing north or south
+        float angle = getRotation();
+        float cx = getX() + getOriginX();
+        float cy = getY() + getOriginY();
+        float x = getX() + getWidth();
+
+        float y = getY();
+        float y2 = getY() + getHeight() - laserTexture.getHeight();
+
+        Vector2 leftLaserPos = getRotatedPoint(x, y2, cx, cy, angle);
+        Vector2 rightLaserPos = getRotatedPoint(x, y, cx, cy, angle);
+        Laser leftLaser = new Laser(leftLaserPos.x, leftLaserPos.y, laserTexture, getStage());
+        Laser rightLaser = new Laser(rightLaserPos.x, rightLaserPos.y, laserTexture, getStage());
+        leftLaser.setRotation(angle);
+        rightLaser.setRotation(angle);
+    }
+
+    private Vector2 getRotatedPoint(float x, float y, float cx, float cy, float angle) {
+        float ox = x - cx;
+        float oy = y - cy;
+        float rx = ox * cosDeg(angle) - oy * sinDeg(angle) + cx;
+        float ry = ox * sinDeg(angle) + oy * cosDeg(angle) + cy;
+        return new Vector2(rx, ry);
     }
 
     @Override
