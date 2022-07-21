@@ -2,13 +2,13 @@ package com.diyartaikenov.game.ship;
 
 import static com.badlogic.gdx.math.MathUtils.cosDeg;
 import static com.badlogic.gdx.math.MathUtils.sinDeg;
-import static com.badlogic.gdx.utils.Align.center;
 
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Align;
 import com.diyartaikenov.game.base.actors.PhysicsActor;
 
 public class SpaceShip extends PhysicsActor implements InputProcessor {
@@ -18,14 +18,23 @@ public class SpaceShip extends PhysicsActor implements InputProcessor {
     private static final float LASER_SPEED = 400;
 
     private final Texture laserTexture;
+    private final PhysicsActor exhaust;
+    private float exhaustOffsetX;
+    private float exhaustOffsetY;
     private boolean isTurningRight, isTurningLeft;
     private boolean isReverseThrustOn;
 
-    public SpaceShip(Texture texture, Texture laserTexture, Stage stage) {
-        super(texture, stage);
-        this.laserTexture = laserTexture;
-        setOrigin(center);
+    public SpaceShip(Texture ship, Texture laser, Texture exhaust, Stage stage) {
+        super(ship, stage);
+        setOrigin(Align.center);
         setMaxSpeed(5000);
+        laserTexture = laser;
+
+        this.exhaust = new PhysicsActor(exhaust, stage);
+        this.exhaust.setVisible(false);
+        // just guessed these numbers, don't really know what's going on.
+        exhaustOffsetX = exhaust.getWidth() * 1.48f;
+        exhaustOffsetY = getHeight() / 2.6f;
     }
 
     @Override
@@ -34,6 +43,9 @@ public class SpaceShip extends PhysicsActor implements InputProcessor {
         makeTurn();
         updateAcceleratingDirection();
         wrapAroundWorld();
+        if (exhaust.isVisible()) {
+            updateExhaustPosition();
+        }
     }
 
     private void makeTurn() {
@@ -54,14 +66,26 @@ public class SpaceShip extends PhysicsActor implements InputProcessor {
         }
     }
 
-    private void shoot() {
-        float angle = getRotation();
+    private void updateExhaustPosition() {
+        exhaust.setRotation(getRotation() - 180);
+        float angle = exhaust.getRotation();
+        float x = getX() + exhaustOffsetX;
+        float y = getY() + exhaustOffsetY;
         float cx = getX() + getOriginX();
         float cy = getY() + getOriginY();
-        float x = getX() + getWidth();
+        Vector2 pos = getRotatedPoint(x, y, cx, cy, angle);
+        exhaust.setPosition(pos.x, pos.y);
+    }
 
+    private void shoot() {
+        float angle = getRotation();
+
+        float x = getX() + getWidth();
         float y = getY();
         float y2 = getY() + getHeight() - laserTexture.getHeight();
+
+        float cx = getX() + getOriginX();
+        float cy = getY() + getOriginY();
 
         Vector2 leftLaserPos = getRotatedPoint(x, y2, cx, cy, angle);
         Vector2 rightLaserPos = getRotatedPoint(x, y, cx, cy, angle);
@@ -91,6 +115,7 @@ public class SpaceShip extends PhysicsActor implements InputProcessor {
         }
         if (keycode == Keys.W) {
             accelerateInCurrentDirection(ACCELERATION);
+            exhaust.setVisible(true);
         }
         if (keycode == Keys.S) {
             isReverseThrustOn = true;
@@ -99,7 +124,7 @@ public class SpaceShip extends PhysicsActor implements InputProcessor {
             shoot();
         }
         if (keycode == Keys.ALT_LEFT) {
-            // todo: temporary
+            // fixme: temporary for testing
             setAcceleration(0);
             setSpeed(0);
         }
@@ -117,6 +142,7 @@ public class SpaceShip extends PhysicsActor implements InputProcessor {
         }
         if (keycode == Keys.W) {
             setAcceleration(0);
+            exhaust.setVisible(false);
         }
         if (keycode == Keys.S) {
             isReverseThrustOn = false;

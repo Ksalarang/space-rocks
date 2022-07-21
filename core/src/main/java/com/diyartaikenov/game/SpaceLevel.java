@@ -3,6 +3,7 @@ package com.diyartaikenov.game;
 import static com.diyartaikenov.game.SpaceRocksGame.HEIGHT;
 import static com.diyartaikenov.game.SpaceRocksGame.WIDTH;
 import static com.diyartaikenov.game.utils.UrlConstants.BACKGROUND;
+import static com.diyartaikenov.game.utils.UrlConstants.EXHAUST;
 import static com.diyartaikenov.game.utils.UrlConstants.LASER;
 import static com.diyartaikenov.game.utils.UrlConstants.PNG;
 import static com.diyartaikenov.game.utils.UrlConstants.SPACESHIP;
@@ -34,8 +35,9 @@ public class SpaceLevel extends BaseScreen {
         background = new BaseActor(starfield, mainStage);
 
         Texture shipTexture = spaceGame.assetManager.getTexture(SPACESHIP + PNG);
-        Texture laserTexture = spaceGame.assetManager.getTexture(LASER + PNG);
-        ship = new SpaceShip(shipTexture, laserTexture, mainStage);
+        Texture laser = spaceGame.assetManager.getTexture(LASER + PNG);
+        Texture exhaust = spaceGame.assetManager.getTexture(EXHAUST + PNG);
+        ship = new SpaceShip(shipTexture, laser, exhaust, mainStage);
         ship.setPosition(200, HEIGHT / 2f);
         SpaceShip.setWorldBounds(WIDTH, HEIGHT);
 

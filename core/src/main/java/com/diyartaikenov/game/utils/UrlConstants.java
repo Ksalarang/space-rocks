@@ -7,6 +7,7 @@ public class UrlConstants {
     public static final String BACKGROUND = "starfield_extended";
     public static final String SPACESHIP = "spaceship";
     public static final String LASER = "laser";
+    public static final String EXHAUST = "fire";
 
     public static final String FONT_ARIAL_64 = "Arial-64";
 

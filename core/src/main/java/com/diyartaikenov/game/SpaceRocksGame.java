@@ -1,6 +1,7 @@
 package com.diyartaikenov.game;
 
 import static com.diyartaikenov.game.utils.UrlConstants.BACKGROUND;
+import static com.diyartaikenov.game.utils.UrlConstants.EXHAUST;
 import static com.diyartaikenov.game.utils.UrlConstants.FNT;
 import static com.diyartaikenov.game.utils.UrlConstants.FONT_ARIAL_64;
 import static com.diyartaikenov.game.utils.UrlConstants.LASER;
@@ -37,6 +38,7 @@ public class SpaceRocksGame extends BaseGame {
 		assetManager.addTextureToLoad(BACKGROUND + PNG);
 		assetManager.addTextureToLoad(SPACESHIP + PNG);
 		assetManager.addTextureToLoad(LASER + PNG);
+		assetManager.addTextureToLoad(EXHAUST + PNG);
 	}
 
 	private void setButtonStyleFontColors() {
