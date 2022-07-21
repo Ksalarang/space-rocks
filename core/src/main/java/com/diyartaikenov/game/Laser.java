@@ -13,15 +13,16 @@ public class Laser extends PhysicsActor {
         addAction(Actions.delay(3));
         addAction(Actions.after(Actions.fadeOut(0.5f)));
         addAction(Actions.after(Actions.removeActor()));
+    }
 
-        setSpeed(400);
-        setMaxSpeed(400);
+    public void setRotationAndSpeed(float speed, float angle) {
+        setRotation(angle);
+        setSpeed(speed);
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
-        applyRotationToVelocity();
         wrapAroundWorld();
     }
 }

@@ -16,17 +16,17 @@ public class SpaceShip extends PhysicsActor implements InputProcessor {
     private static final float ACCELERATION = 200;
     private static final float HALF_ACCELERATION = ACCELERATION / 2;
     private static final float ROTATE_AMOUNT = 5;
+    private static final float LASER_SPEED = 400;
 
-    private Texture laserTexture;
+    private final Texture laserTexture;
     private boolean isTurningRight, isTurningLeft;
     private boolean isReverseThrustOn;
 
-    public SpaceShip(float x, float y, Stage stage) {
-        super(new Texture(Gdx.files.internal("spaceship.png")), stage);
-        setPosition(x, y);
+    public SpaceShip(Texture texture, Texture laserTexture, Stage stage) {
+        super(texture, stage);
+        this.laserTexture = laserTexture;
         setOrigin(center);
         setMaxSpeed(5000);
-        laserTexture = new Texture(Gdx.files.internal("laser.png"));
     }
 
     @Override
@@ -56,7 +56,6 @@ public class SpaceShip extends PhysicsActor implements InputProcessor {
     }
 
     private void shoot() {
-        // fixme: lasers are slightly off to the right when the ship is facing north or south
         float angle = getRotation();
         float cx = getX() + getOriginX();
         float cy = getY() + getOriginY();
@@ -69,9 +68,10 @@ public class SpaceShip extends PhysicsActor implements InputProcessor {
         Vector2 rightLaserPos = getRotatedPoint(x, y, cx, cy, angle);
         Laser leftLaser = new Laser(leftLaserPos.x, leftLaserPos.y, laserTexture, getStage());
         Laser rightLaser = new Laser(rightLaserPos.x, rightLaserPos.y, laserTexture, getStage());
-        // fixme: add ship's speed to lasers' speeds
-        leftLaser.setRotation(angle);
-        rightLaser.setRotation(angle);
+        // fixme: add up ship's velocity with lasers'
+        float speed = LASER_SPEED;
+        leftLaser.setRotationAndSpeed(speed, angle);
+        rightLaser.setRotationAndSpeed(speed, angle);
     }
 
     private Vector2 getRotatedPoint(float x, float y, float cx, float cy, float angle) {
