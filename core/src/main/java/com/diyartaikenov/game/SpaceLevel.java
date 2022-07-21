@@ -36,10 +36,4 @@ public class SpaceLevel extends BaseScreen {
 
     @Override
     protected void update(float delta) {}
-
-    @Override
-    public void dispose() {
-        super.dispose();
-        background.dispose();
-    }
 }

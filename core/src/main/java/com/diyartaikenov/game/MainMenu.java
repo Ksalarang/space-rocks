@@ -58,12 +58,6 @@ public class MainMenu extends BaseScreen {
 	@Override
 	protected void update(float delta) {}
 
-	@Override
-	public void dispose() {
-		super.dispose();
-		background.dispose();
-	}
-
 	private void onPlayButtonClick() {
 		dispose();
 		spaceGame.setScreen(new SpaceLevel(spaceGame));

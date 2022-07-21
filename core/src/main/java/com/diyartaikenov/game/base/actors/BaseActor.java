@@ -15,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Disposable;
 
-public class BaseActor extends Actor implements Disposable {
+public class BaseActor extends Actor {
     public static Rectangle worldBounds = new Rectangle();
 
     protected TextureRegion textureRegion = new TextureRegion();
@@ -211,11 +211,6 @@ public class BaseActor extends Actor implements Disposable {
                     getRotation()
             );
         }
-    }
-
-    @Override
-    public void dispose() {
-        textureRegion.getTexture().dispose();
     }
 
     /**
