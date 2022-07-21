@@ -1,4 +1,4 @@
-package com.diyartaikenov.game;
+package com.diyartaikenov.game.ship;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;

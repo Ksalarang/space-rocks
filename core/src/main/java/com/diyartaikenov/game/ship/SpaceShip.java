@@ -1,10 +1,9 @@
-package com.diyartaikenov.game;
+package com.diyartaikenov.game.ship;
 
 import static com.badlogic.gdx.math.MathUtils.cosDeg;
 import static com.badlogic.gdx.math.MathUtils.sinDeg;
 import static com.badlogic.gdx.utils.Align.center;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;

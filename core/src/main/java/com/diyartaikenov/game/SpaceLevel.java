@@ -8,12 +8,11 @@ import static com.diyartaikenov.game.utils.UrlConstants.PNG;
 import static com.diyartaikenov.game.utils.UrlConstants.SPACESHIP;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.diyartaikenov.game.base.actors.BaseActor;
-import com.diyartaikenov.game.base.actors.PhysicsActor;
 import com.diyartaikenov.game.base.screens.BaseScreen;
+import com.diyartaikenov.game.ship.SpaceShip;
 
 public class SpaceLevel extends BaseScreen {
     private SpaceRocksGame spaceGame;
