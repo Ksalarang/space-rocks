@@ -35,7 +35,7 @@ public class MainMenu extends BaseScreen {
 		uiStage.setViewport(new ExtendViewport(WIDTH, HEIGHT));
 
 		Texture starfield = spaceGame.assetManager.getTexture(BACKGROUND + PNG);
-		background = new BaseActor(starfield);
+		background = new BaseActor(starfield, uiStage);
 
 		playButton = new TextButton("Play", spaceGame.textButtonStyle);
 		quitButton = new TextButton("Quit", spaceGame.textButtonStyle);
@@ -48,7 +48,6 @@ public class MainMenu extends BaseScreen {
 		Vector2 tablePosition = Utils.center(WIDTH, HEIGHT, uiTable.getWidth(), uiTable.getHeight());
 		uiTable.setPosition(tablePosition.x, tablePosition.y);
 
-		mainStage.addActor(background);
 		uiStage.addActor(uiTable);
 	}
 
