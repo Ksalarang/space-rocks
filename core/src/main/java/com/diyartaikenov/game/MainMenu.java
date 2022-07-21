@@ -37,23 +37,22 @@ public class MainMenu extends BaseScreen {
 
 		playButton = new TextButton("Play", spaceGame.textButtonStyle);
 		quitButton = new TextButton("Quit", spaceGame.textButtonStyle);
-		playButton.addListener(getPlayButtonClickListener());
-		quitButton.addListener(getQuitButtonClickListener());
+		Utils.addClickListener(playButton, this::onPlayButtonClick);
+		Utils.addClickListener(quitButton, this::onQuitButtonClick);
 
 		uiTable = new Table();
-		uiTable.add(playButton).height(200);
-		uiTable.row();
-		uiTable.add(quitButton);
-		Vector2 tablePosition = Utils.center(
-				Gdx.graphics.getWidth(),
-				HEIGHT,
-				uiTable.getWidth(),
-				uiTable.getHeight()
-		);
+		addUiTableRows();
+		Vector2 tablePosition = Utils.center(Gdx.graphics.getWidth(), HEIGHT, uiTable.getWidth(), uiTable.getHeight());
 		uiTable.setPosition(tablePosition.x, tablePosition.y);
 
 		uiStage.addActor(background);
 		uiStage.addActor(uiTable);
+	}
+
+	private void addUiTableRows() {
+		uiTable.add(playButton).height(200);
+		uiTable.row();
+		uiTable.add(quitButton);
 	}
 
 	@Override
@@ -65,23 +64,13 @@ public class MainMenu extends BaseScreen {
 		background.dispose();
 	}
 
-	private ClickListener getPlayButtonClickListener() {
-		return new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				dispose();
-				spaceGame.setScreen(new SpaceLevel(spaceGame));
-			}
-		};
+	private void onPlayButtonClick() {
+		dispose();
+		spaceGame.setScreen(new SpaceLevel(spaceGame));
 	}
 
-	private ClickListener getQuitButtonClickListener() {
-		return new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				dispose();
-				Gdx.app.exit();
-			}
-		};
+	private void onQuitButtonClick() {
+		dispose();
+		Gdx.app.exit();
 	}
 }
