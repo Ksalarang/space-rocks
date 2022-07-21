@@ -12,7 +12,7 @@ public class PhysicsActor extends BaseActor {
 
     private final Vector2 velocity = new Vector2();
     private final Vector2 acceleration = new Vector2();
-    private float maxSpeed = 1000F;
+    private float maxSpeed = 10000F;
     private boolean isAutoRotating;
     protected boolean isDecelerating;
     protected float deceleration = 50;
