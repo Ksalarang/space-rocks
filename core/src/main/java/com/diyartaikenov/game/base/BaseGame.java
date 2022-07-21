@@ -12,6 +12,7 @@ public class BaseGame extends Game {
     public SpriteBatch batch;
     public ShapeRenderer shapeRenderer;
     public BitmapFont defaultFont;
+    private boolean isDefaultFontOwned = true;
 
     public TextButtonStyle textButtonStyle;
     public LabelStyle labelStyle;
@@ -22,7 +23,6 @@ public class BaseGame extends Game {
         shapeRenderer = new ShapeRenderer();
         shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
         shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
-
         defaultFont = new BitmapFont();
 
         textButtonStyle = new TextButtonStyle();
@@ -38,5 +38,16 @@ public class BaseGame extends Game {
         defaultFont = font;
         textButtonStyle.font = font;
         labelStyle.font = font;
+        isDefaultFontOwned = false;
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        batch.dispose();
+        shapeRenderer.dispose();
+        if (isDefaultFontOwned) {
+            defaultFont.dispose();
+        }
     }
 }
