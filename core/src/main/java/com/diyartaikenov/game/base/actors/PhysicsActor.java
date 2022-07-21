@@ -121,9 +121,7 @@ public class PhysicsActor extends BaseActor {
                 setSpeed(speed - decelerateRate);
             }
         }
-        setAccelerationWith(getRotation(), getAcceleration());
         velocity.add(acceleration.x * delta, acceleration.y * delta);
-        applyRotationToVelocity();
         if (getSpeed() > maxSpeed) {
             setSpeed(maxSpeed);
         }

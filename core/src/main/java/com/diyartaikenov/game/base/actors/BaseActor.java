@@ -15,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Disposable;
 
-public class BaseActor extends Actor implements Disposable {
+public class BaseActor extends Actor {
     public static Rectangle worldBounds = new Rectangle();
 
     protected TextureRegion textureRegion = new TextureRegion();
@@ -110,12 +110,19 @@ public class BaseActor extends Actor implements Disposable {
         boundaryPolygon = new Polygon(vertices);
     }
 
+    /**
+     * @return the boundary polygon or null if it's not set.
+     */
     public Polygon getBoundaryPolygon() {
-        boundaryPolygon.setPosition(getX(), getY());
-        boundaryPolygon.setOrigin(getOriginX(), getOriginY());
-        boundaryPolygon.setScale(getScaleX(), getScaleY());
-        boundaryPolygon.setRotation(getRotation());
-        return boundaryPolygon;
+        if (boundaryPolygon != null) {
+            boundaryPolygon.setPosition(getX(), getY());
+            boundaryPolygon.setOrigin(getOriginX(), getOriginY());
+            boundaryPolygon.setScale(getScaleX(), getScaleY());
+            boundaryPolygon.setRotation(getRotation());
+            return boundaryPolygon;
+        } else {
+            return null;
+        }
     }
 
     public boolean overlaps(BaseActor other) {
@@ -171,6 +178,26 @@ public class BaseActor extends Actor implements Disposable {
         camera.update();
     }
 
+    /**
+     * When an actor moves past the edge of the world, it reappears on the opposite edge.
+     * To use this feature, set the {@link #worldBounds} first.
+     * @see #setWorldBounds(float, float)
+     */
+    public void wrapAroundWorld() {
+        if (getX() + getWidth() <= 0) {
+            setX(worldBounds.width);
+        }
+        if (getX() > worldBounds.width) {
+            setX(-getWidth());
+        }
+        if (getY() + getHeight() <= 0) {
+            setY(worldBounds.height);
+        }
+        if (getY() > worldBounds.height) {
+            setY(-getHeight());
+        }
+    }
+
     @Override
     public void draw(Batch batch, float parentAlpha) {
         batch.setColor(getColor());
@@ -186,8 +213,29 @@ public class BaseActor extends Actor implements Disposable {
         }
     }
 
+    /**
+     * Copy the {@code original} actor's fields to this actor's fields.
+     */
+    public void copy(BaseActor original) {
+        textureRegion = new TextureRegion(original.textureRegion);
+        if (original.boundaryPolygon != null) {
+            boundaryPolygon = new Polygon(original.boundaryPolygon.getVertices());
+            boundaryPolygon.setOrigin(original.getOriginX(), original.getOriginY());
+        }
+        setPosition(original.getX(), original.getY());
+        setOriginX(original.getOriginX());
+        setOriginY(original.getOriginY());
+        setWidth(original.getWidth());
+        setHeight(original.getHeight());
+        setColor(original.getColor());
+        setVisible(original.isVisible());
+    }
+
     @Override
-    public void dispose() {
-        textureRegion.getTexture().dispose();
+    public BaseActor clone() {
+        try { super.clone(); } catch (CloneNotSupportedException ignored) {}
+        BaseActor clone = new BaseActor();
+        clone.copy(this);
+        return clone;
     }
 }
